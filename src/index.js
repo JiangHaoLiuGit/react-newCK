@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import Tick from './component/Tick.js'
+// import Test from './component/Test.js'
 
 
-let div = (
-  <div>
-    <h1>React</h1>
-  </div>
-)
-
-const root = ReactDOM.createRoot(document.getElementById('root')).render(div);
+const root = ReactDOM.createRoot(document.getElementById('root')).render(
+  <>
+    <Tick number={5}/>
+    {/* <Test number={5}/> */}
+  </>
+);
 
 
