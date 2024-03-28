@@ -8,12 +8,17 @@ async function fetchAllStudents(){
 const root = ReactDOM.createRoot(document.getElementById('root'));
 fetchAllStudents()
 async function render(){
+  root.render(
+    <>
+      <h1>正在加载中...</h1>
+    </>
+  )
   let studentList = await fetchAllStudents()
-  root.render((
+  root.render(
     <>
       <StudentList strList={studentList}/>
     </>
-  ))
+  )
 }
 render()
 
