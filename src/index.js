@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
-let div = (
-  <h1>React</h1>
-)
+import BailList from './component/BailList.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 function render(){
-  root.render(div)
+  root.render(<BailList number={10}/>)
 }
 
 render()
