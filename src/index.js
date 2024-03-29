@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import TickControl from './component/TickControl.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 function render(){
-  root.render(<h1>React hook</h1>)
+  root.render(<TickControl/>)
 }
 
 render()
