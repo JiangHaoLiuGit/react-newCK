@@ -1,0 +1,20 @@
+.three-layout{
+    display: flex;
+    justify-content:center;
+   
+}
+.three-layout .content{
+    order: 2;
+    height: 500px;
+    border: 1px solid #000;
+    flex: 1 1 auto;
+}
+.three-layout .left{
+    order: 1;
+    border: 1px solid #fc4;
+}
+.three-layout .right{
+    order: 3;
+    border: 1px solid #f00;
+    
+}

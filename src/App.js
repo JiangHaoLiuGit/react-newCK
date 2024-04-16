@@ -1,11 +1,17 @@
 import React from 'react'
-import Com from './component/Com'
+import ThreeLayout from './component/ThreeLayout'
 
 export default class App extends React.Component{
     render(){
         return(
             <>
-                <Com></Com>
+                <ThreeLayout
+                    left={<h2>我是左边</h2>}
+                    right={<h2>我是右边</h2>}
+                    padding={50}
+                >
+                    <h1>我是content主体</h1>
+                </ThreeLayout>
             </>
         )
     }
