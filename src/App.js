@@ -1,11 +1,11 @@
 import React from 'react'
-import Com from './component/Com'
+import From from './component/from'
 
 export default class App extends React.Component{
     render(){
         return(
             <>
-                <Com></Com>
+                <From></From>
             </>
         )
     }

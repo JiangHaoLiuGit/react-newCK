@@ -1,0 +1,22 @@
+.from{
+    
+}
+.from .fromItem{
+    width: 600px;
+    display: flex;
+    justify-content: left;
+    margin: 20px 0;
+}
+.from .fromItem .label{
+    width: 50px;
+}
+.from .fromItem .item{
+    width: 500px;
+}
+.from button{
+    margin-top: 20px;
+}
+.from select{
+    width: 100px;
+    height: 25px;
+}
