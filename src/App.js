@@ -1,5 +1,5 @@
 import React from 'react'
-import Test from './Test.js'
+import Test from './view/Model'
 
 export default class App extends React.Component{
     render(){

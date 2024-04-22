@@ -1,12 +1,20 @@
 import React from 'react'
+import types from '../../utils/componentTypes.js'
+import propTypes from 'prop-types'
 
 export default class Radio extends React.Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            dates:this.props.dates,
-            sex:this.props.sex
-        }
+    // 默认属性值
+    static defaultProps = {
+        dates:[],
+        sex:'',
+    }
+
+    // 默认类型限制
+    static propTypes = {
+        dates:types.groupDates.isRequired,
+        name:propTypes.string.isRequired,
+        sex:propTypes.string.isRequired,
+        onChange:propTypes.func.isRequired
     }
     onChange = (e) => {
         if(e.target.checked){
@@ -14,10 +22,10 @@ export default class Radio extends React.Component{
         }
     }
     render(){
-        let com = this.state.dates.map(it => (
+        let com = this.props.dates.map(it => (
             <label key={it.value}>
                 <input type="radio"
-                 name={this.state.name}
+                 name={this.props.name}
                  value={it.value}
                  checked={this.props.sex==it.value}
                  onChange={this.onChange} />{it.text}

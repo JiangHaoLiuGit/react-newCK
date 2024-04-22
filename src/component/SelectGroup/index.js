@@ -1,17 +1,26 @@
 import React from 'react'
+import types from '../../utils/componentTypes.js'
+import propTypes from 'prop-types'
 
 export default class Radio extends React.Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            dates:this.props.dates,
-        }
+    // 默认属性值
+    static defaultProps = {
+        dates:[],
+        city:'',
+    }
+
+    // 默认类型限制
+    static propTypes = {
+        dates:types.groupDates.isRequired,
+        name:propTypes.string.isRequired,
+        city:propTypes.string.isRequired,
+        onChange:propTypes.func.isRequired
     }
     onChange = (e) => {
         this.props.onChange && this.props.onChange(e.target.value,this.props.name,e)
     }
     render(){
-        let com = this.state.dates.map(it => (
+        let com = this.props.dates.map(it => (
                 <option value={it.value} key={it.value}>{it.text}</option>
         ))
         return <>
