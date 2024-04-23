@@ -1,32 +1,35 @@
 import React from 'react'
 import types from '../../utils/componentTypes.js'
 import propTypes from 'prop-types'
-
-export default class Radio extends React.Component{
-    // 默认属性值
-    static defaultProps = {
-        dates:[],
-        city:'',
-    }
-
-    // 默认类型限制
+import withDataGroup from '../hoc/withDateList.js'
+class Option extends React.Component{
     static propTypes = {
-        dates:types.groupDates.isRequired,
-        name:propTypes.string.isRequired,
-        city:propTypes.string.isRequired,
-        onChange:propTypes.func.isRequired
-    }
-    onChange = (e) => {
-        this.props.onChange && this.props.onChange(e.target.value,this.props.name,e)
+        info:types.singleDate
     }
     render(){
-        let com = this.props.dates.map(it => (
-                <option value={it.value} key={it.value}>{it.text}</option>
-        ))
         return <>
-            <select name={this.props.name} value={this.props.city} onChange={this.onChange}>
-                {com}
+            <option value={this.props.info.value}>{this.props.info.text}</option>
+        </>
+    }
+}
+const Options = withDataGroup(Option)
+class Select extends React.Component{
+    static propTypes = {
+        dates:types.groupDates.isRequired,
+        onChange:propTypes.func,
+        city:propTypes.string.isRequired,
+        name:propTypes.string.isRequired
+    }
+    render(){
+        return <>
+            <select name={this.props.name} value={this.props.city} onChange={(e)=>{
+                this.props.onChange && this.props.onChange(e.target.value,this.props.name)
+            }}>
+                {/* key={this.props.info.value}  */}
+                <Options {...this.props}/>
             </select>
         </>
     }
 }
+
+export default Select

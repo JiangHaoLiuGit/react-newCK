@@ -1,19 +1,14 @@
 import React from 'react'
 import types from '../../utils/componentTypes.js'
 import propTypes from 'prop-types'
+import withDataGroup from '../hoc/withDateList.js'
 
-export default class Radio extends React.Component{
-    // 默认属性值
-    static defaultProps = {
-        dates:[],
-        sex:'',
-    }
-
+class RadioGroup extends React.Component{
     // 默认类型限制
     static propTypes = {
         dates:types.groupDates.isRequired,
         name:propTypes.string.isRequired,
-        sex:propTypes.string.isRequired,
+        sex:propTypes.string,
         onChange:propTypes.func.isRequired
     }
     onChange = (e) => {
@@ -22,17 +17,15 @@ export default class Radio extends React.Component{
         }
     }
     render(){
-        let com = this.props.dates.map(it => (
-            <label key={it.value}>
+        return <>
+            <label>
                 <input type="radio"
                  name={this.props.name}
-                 value={it.value}
-                 checked={this.props.sex==it.value}
-                 onChange={this.onChange} />{it.text}
+                 value={this.props.info.value}
+                 checked={this.props.sex==this.props.info.value}
+                 onChange={this.onChange} />{this.props.info.text}
             </label>
-        ))
-        return <>
-            {com}
         </>
     }
 }
+export default withDataGroup(RadioGroup)

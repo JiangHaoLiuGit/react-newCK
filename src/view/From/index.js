@@ -16,13 +16,14 @@ export default class Test extends Component {
         {value:"girl",text:"女人"},
         {value:"renyao",text:"人妖"},
       ],
-      sex:"",
+      sex:"girl",
       cityList:[
+        {value:"",text:"请选择"},
         {value:"beijing",text:"北京"},
         {value:"shanghai",text:"上海"},
         {value:"hangzhou",text:"杭州"},
       ],
-      city:"",
+      city:"hangzhou",
 
   }
   onChange=(newArr,name,e) =>{
