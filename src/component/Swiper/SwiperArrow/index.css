@@ -1,0 +1,32 @@
+.swiperBox .swiperArrow span{
+    position: absolute;
+    top: 50%;
+    display: block;
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    transform:translateY(-20px);
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    line-height: 50px;
+    font-size: 20px;
+    border-radius:50%;
+    cursor: pointer;
+    display: none;
+}
+.swiperBox:hover .swiperArrow span{
+    display: block;
+}
+.swiperBox .swiperArrow span:hover{
+    background-color: rgba(0,0,0,.8);
+}
+.swiperBox .left{
+    left: -25px;
+    padding-left: 25px;
+    /* border-radius:0 50% 50% 0; */
+}
+.swiperBox .right{
+    right: -25px;
+    padding-left: 9px;
+    /* border-radius:50% 0 0 50%; */
+}

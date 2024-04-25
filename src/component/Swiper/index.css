@@ -1,0 +1,15 @@
+.swiperBox{
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+}
+.swiperBox button{
+    position: absolute;
+    bottom: 0;
+}
+.swiperBox .btn1{
+    left: 0;
+}
+.swiperBox .btn2{
+    left: 100px;
+}

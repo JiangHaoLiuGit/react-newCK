@@ -1,0 +1,26 @@
+.swiperDot{
+    position: absolute;
+    background: rgba(0,0,0,.5);
+    bottom: 30px;
+    left: 50%;
+    transform:translateX(-50%);
+    border-radius: 40px;
+    padding: 10px;
+}
+.swiperDot::after{
+    clear:both;
+    display: table;
+    content: "";
+}
+.swiperDot>span{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #fff;
+    float: left;
+    margin-right:10px;
+    cursor: pointer;
+}
+.swiperDot>span.active{
+    background: #f40;
+}
