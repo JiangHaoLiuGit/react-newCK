@@ -4,6 +4,7 @@ export default class SwiperDot extends Component {
   render() {
     let spans = this.props.imgList.map((it,index) => 
         <span 
+        key={index}
         className={index == this.props.index ? 'span active':'span'} 
         onClick={()=>{
             this.props.onChange && this.props.onChange(index)
