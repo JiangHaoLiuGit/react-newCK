@@ -1,5 +1,5 @@
 import React from 'react'
-import Test from './view/Swiper'
+import Test from './view/ForwardRef'
 
 export default class App extends React.Component{
     render(){
