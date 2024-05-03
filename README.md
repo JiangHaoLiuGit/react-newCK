@@ -36,7 +36,7 @@
 
 **注意细节**
 
-如果,上下文提供者(Context.Provider)中的value属性发生变化,会导致该上下文提供的所有后代元素全部重新渲染render,无论该子组件是否包含其内容
+如果,上下文提供者(Context.Provider)中的value属性发生变化(用Object.is比较两个函数前后是否相等),会导致该上下文提供的所有后代元素全部重新渲染render(如果组件之前做了优化,有些数据变化不会触发render,但是由于你加了上下文,会导致出现之前加的优化失效,这是个很头疼的问题,但是也好解决,给他在套一层就可以了,见index copy.js),无论该子组件是否包含其内容
 优化:用shouldComponentUpdate阻止因为父级context数据变化导致的render更新
 
 
