@@ -1,0 +1,6 @@
+li{
+    color: #f40;
+}
+li.active{
+    color: blue;
+}
