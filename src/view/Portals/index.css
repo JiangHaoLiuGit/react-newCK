@@ -1,0 +1,12 @@
+.portals{
+    width: 50%;
+    height: 100vh;
+    background: #aaa;
+    float: left;
+}
+#root{
+    width: 50%;
+    float: left;
+    height: 100vh;
+    background: #ccc;
+}

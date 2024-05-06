@@ -1,5 +1,5 @@
 import React from 'react'
-import Test from './view/renderProps'
+import Test from './view/Portals'
 
 export default class App extends React.Component{
     render(){
