@@ -1,9 +1,8 @@
 import React from 'react'
-import Test from './view/pureComponent'
+import Test from './view/renderProps'
 
 export default class App extends React.Component{
     render(){
-        console.log("App render")
         return(
             <>
                 <Test></Test>
