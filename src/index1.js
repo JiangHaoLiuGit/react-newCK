@@ -7,6 +7,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 function render(){
   let app = (<>
     <App />
+    <App />
   </>)
   root.render(app)
 }
