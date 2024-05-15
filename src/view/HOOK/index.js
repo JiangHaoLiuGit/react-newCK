@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import UseState from './UseState'
+import Effect from './Effect'
 export default class Test extends Component {
   render() {
     return (
       <div>
-        <UseState />
+        <Effect />
       </div>
     )
   }
