@@ -8,9 +8,9 @@ function stop(){
 window.timer = null
 function Ball(props){
     useEffect(()=>{
-        let timeTotal = 10000
+        let timetotal = 10000
         let timeSm = 16
-        let timeNumber = parseInt(timeTotal / timeSm)
+        let timeNumber = parseInt(timetotal / timeSm)
         let num = 0
         let deepX = props.left / timeNumber
         let deepY = props.top / timeNumber
