@@ -30,7 +30,6 @@ export default class Task extends PureComponent {
 // export default React.memo(Task)
 // 下面是手动实现React.memo功能
 // function memo(Comp){
-    
 //     return class Memo extends React.PureComponent{
 //         render(){
 //             return <>

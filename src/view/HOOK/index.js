@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import Effect from './Effect'
+import FunTest from './FunTest'
 export default class Test extends Component {
   render() {
     return (
       <div>
-        <Effect />
+        <FunTest />
       </div>
     )
   }
 }
+
