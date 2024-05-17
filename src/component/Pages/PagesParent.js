@@ -1,6 +1,6 @@
 import React from 'react'
 import Pages from './Pages.js'
-import Model from './Model/Model.js'
+import Model from '../Model/Model.js'
 
 export default class PagePesParent extends React.Component{
     constructor(props){
