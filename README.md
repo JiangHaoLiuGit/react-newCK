@@ -1,37 +1,20 @@
-## Effect HOOK (副作用函数用这个Hook)
+## 自定义 HOOK
 
-Effect Hook: 用于在函数组件中处理副作用(有副作用的操作都写到这个里面)
+State Hook:useState
+Effect Hook:useEffect
 
-副作用:
+自定义Hook:将一些常用的,跨越多个组件的Hook功能,抽离出去形成一个函数,该函数就是自定义hook
 
-1.ajax请求
-2.计时器
-3.其他异步操作
-4.更改真实DOM对象
-5.本地存储
-6.其他会对外部产生影响的操作
-(react只运行在三种情况添加副作用代码,比如生命周期componentDidMount中和componentDidUpdate这两个都是在render形成真实DOM之后调用还有一种是compoentWillUnMount)
+自定义hook用函数组件封装一组数据示例:index copy.js
+高阶组件用类组件封装一组数据示例:index copy2.js+ClassStudent.js
 
-函数:useEffect,该函数接受一个函数作为参数,接收的函数就是需要进行副作用操作的函数
 
-**细节**
-1.副作用函数的运行时间点:是在页面完成真实的UI渲染之后,因此他的操作是异步的,并且不会阻塞浏览器
-    1.与类组件中componentDidMount和compoentDidUpdate的区别
-    2.componentDidMount和componentDidUpdate,更改了真实DOM,但是用户还没有看到UI更新,同步的
-    3.useEffect中的副作用函数,更改了真实DOM,并且用户已经看到UI更新,异步的.
-2.每个函数中,可以多次使用useEffect,但不要放入判断或循环等代码块中
-3.useEffect中的副作用函数,可以有返回值,返回值必是一个函数,该函数叫做清理函数
-    1.该函数运行时间点,在每次运行副作用函数之前
-    2.首次渲染组件不会运行
-    3.组件被销毁时一定会运行
-4.useEffect函数,可以传第二个参数
-    1.第二个参数是一个数组
-    2.数组中记录改副作用的依赖值
-    3.当组件重新渲染后,只有依赖数据与上一次不一样时,才会执行副作用
-    4.所以,当传递了依赖数据之后,如果数据没有发生变化
-        1.副作用函数仅在第一次渲染后运行
-        2.清理函数只有在页面销毁的时候运行
-5.副作用函数中,如果使用了函数上下文中的变量,则由于闭包的影响,会导致副作用函数中变量不会实时变化.
+
+
+
+
+
+class
 
 
 
