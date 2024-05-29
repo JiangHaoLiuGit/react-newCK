@@ -20,7 +20,6 @@ export default class BailList extends React.Component{
             if(this.state.number<=0){
                 clearInterval(this.timer)
             }
-            
             this.setState({
                 number:this.state.number-1,
                 bailList:[...this.state.bailList,info]
