@@ -6,7 +6,7 @@ async function fetchAllStudents(){
                .then(res=>res.json()).then(res=>res).then(res=>res)
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
-fetchAllStudents()
+
 async function render(){
   root.render(
     <>
