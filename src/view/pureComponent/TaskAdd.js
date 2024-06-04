@@ -15,13 +15,15 @@ export default class TaskAdd extends PureComponent {
             this.props.hanlderChangeName && this.props.hanlderChangeName(e.target.value)
         }} />
         <button onClick={()=>{
-            this.props.hanlderChangeList && this.props.hanlderChangeList({
-                name:this.state.name,
-                isFinite:false
-            })
-            this.setState({
-                name:""
-            })
+            if(this.state.name != ''){
+              this.props.hanlderChangeList && this.props.hanlderChangeList({
+                  name:this.state.name,
+                  isFinite:false
+              })
+              this.setState({
+                  name:""
+              })
+            }
         }}>新增</button>
       </div>
     )
