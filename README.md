@@ -18,11 +18,21 @@
 
 1.如果给真实的DOM注册事件,阻止了事件冒泡,则会导致React的相应事件无法触发(这条在18版本中直接失效,无视)
 2.如果给真实的DOM注册事件,事件会先于React事件运行
-3.通过React的事件中阻止事件冒泡,无法阻止真实的DOM事件
+3.通过React的事件中阻止事件冒泡,无法阻止真实的DOM事件(阻止的是虚拟DOM树中的元素冒泡)
 4.react中的虚拟dom中的e是合成类型的e,如果想获取原生类型的e的话可以用e.nativeEvent
 5.在事件处理程序中,不要异步的使用事件对象,如果一定要使用,需要调用persist函数
 
-
+考点:root注册了点击事件
+document.querySelector("#root").onclick = e => {
+    console.log("真实dom元素:root元素点击",e)
+    e.stopPropagation()//阻止事件冒泡
+}
+为啥react事件一个都运行不了?
+解析:react为了提高效率react事件都是在document上进行事件委托统一处理的,
+看文件树结构
+document > html > head + (body > root > react元素)
+root事件和react元素事件同时存在时,会先执行root的事件,然后会向上冒泡,直到冒泡到document的时候才会统一
+触发react事件,由于root中阻止了冒泡,所以document是等不到执行react事件的,所以react事件会都不触发!!!
 
 
 
