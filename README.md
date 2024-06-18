@@ -27,6 +27,12 @@ React元素                 =>               React节点            =>          
 ReactDom.createElement()
 
 ## 首次渲染(新节点渲染)(就是新版生命周期的顺序!!!)
+constructor() => 
+static getDerivedStateFromProps() => 
+render() 将return中的React元素节点全部转化为虚拟DOM树 =>
+componentDidMount() => 这个时候虚拟dom全部都变成真实DOM渲染到了root(页面html)中
+
+componentDidMount执行栈(一个数组)中push一个console.log("b"),等App中的render全部执行完毕之后(也就是虚拟DOM渲染完毕了)之后会在componentDidMount执行栈(一个数组)中push一个console.log("a")
 
 1.通过参数的值创建节点
 2.根据不同的节点,做不同的事情(注意:目前只能渲染这五种类型,写其他类型会报错,比如{[0,"asdfb",<p>asfddd</p>]}是数组类型可以渲染,但是:{{name:"江浩",age:18}}对象则不行,数组节点可以渲染,对象节点无法构建虚拟DOM树会报错)
@@ -39,7 +45,7 @@ ReactDom.createElement()
         2.类组件
             1.通过new 得到实例对象(new的过程就是会马上执行一遍constructor)
             2.调用静态方法 static getDerivedStateFromProps()
-            3.render()
+            3.运行该对象的render()方法,拿到节点对象(将该节点递归操作,回到第1步进行反复递归操作)
             4.将该组件的componentDidMount生命周期函数加入到执行队列中,当整个虚拟DOM树全部构建完毕,并且将真实的DOM对象加入到容器中后,执行该队列
 3.生产虚拟DOM树之后,将该树保存起来,以便后续使用
 4.将之前生成的真实DOM对象(app),(将app)加入到容器中
@@ -125,9 +131,9 @@ root.render(app)
 
 后续步骤:
 1.更新虚拟DOM树
-2.完成真实DOM更新(所以在120行到124行中获取DOM是旧的)
+2.完成真实DOM更新(所以在126行到130行中(1-5)获取DOM是旧的)
 3.依次调用执行队列里的componentDidMount(有些时候会触发)
-4.依次调用执行队列里的getDerivedStateFromProps
+4.依次调用执行队列里的getSnapshotBeforeUpdate
 5.依次调用执行队列里的componentDidUpdate
 6.依次调用执行队列里的componentWillUnmount(该卸载的时候)
 
@@ -213,6 +219,16 @@ return (
 ) 
 ``
 
+1.考点一:画出一个<App/>组件对应的虚拟DOM树结构
+2.考点二:App1.js的执行顺序为什么先输出b,在输出a,因为App中Render阶段的时候渲染ComA组件,渲染完了后会在
+3.考点三:App1.js如果写两个<App/> 那么输出顺序是什么?
+4.为什么{[1,2,<p>我是猪</p>]}能构建,但是{{name:"123",age:50}}渲染不了
+5.为什么React要绘制虚拟DOM树?
+答:在render之后形成新的虚拟dom树后要对比新旧虚拟dom树差异做出更新,其实就是在递归对比虚拟DOM树的元素寻找差异,vue是比对的vnode(把template转化成vNode)!也就是虚拟DOM
+6.App2.js 为什么能58行获取不到B的dom,打印的是null,点击按钮,视图是ComB b:kfc但是打印的却为什么是ComB b:abc?
+答:这里其实获取不到dom这个时候B组件的生命周期才走到render,render是要生成虚拟dom树的,走完render之后到componentDidMount()的时候才能获取真实dom,后面点击也是同理获取的是旧的虚拟dom,真实的dom还没有更新过去呢
+7.react中数组成员为什么要加key?
+举个例子,一个数组长度1000,在前面添加一个成员,如果不加key的话,react在对比更新阶段要操作1001次,如果加key的话只需一次就够了,可以参考app5.js
 
 
 

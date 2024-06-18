@@ -11,6 +11,8 @@ export default class App extends React.Component{
         console.log("2, static getDerivedStateFromProps App")
         return null
     }
+    //计算两个日期之间相差的天数
+    
     componentDidMount(){
         console.log("a, componentDidMount App")
     }

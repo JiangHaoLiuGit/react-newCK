@@ -2,8 +2,8 @@ import React,{Component} from 'react'
 // 考点:加key和不加key有什么区别
 // 没有加key的时候增加为什么增加到了末尾,用的是在头部添加的方法,
 // 原因分析
-// 更新比对阶段:旧节点 : (ComA 2)    (Com 4)
-// 新节点: (ComA 1)  (ComA 2)  (Com4)
+// 更新比对阶段:旧节点 : (ComA 2)    (ComA 4)
+// 新节点: (ComA 1)  (ComA 2)  (ComA 4)
 // 旧(ComA 2) VS 新(ComA 1) => 旧(ComA 2)发现类型没有变,都是类组件ComA,这种情况会完全重用之前的对象,所以不会变用旧节点
 // 旧(ComA 4) VS 新(ComA 2) => 旧(ComA 4)
 // 旧(空节点) VS 新(ComA 4) => 创建新的类组件(ComA 1(这个1是默认值)) 

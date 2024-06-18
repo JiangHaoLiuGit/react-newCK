@@ -4,7 +4,7 @@ import React,{Component} from 'react'
 // 数据变化后react如果更新
 // 旧 <div><ComB></ComB></div>
 // 新 <ComA></ComA>
-// 新旧节点不同的情况下,会先创建新节点组件ComA > 销毁旧的ComB > 执行后续步骤127行1到6步!!!
+// 新旧节点不同的情况下,会先创建新节点组件ComA > 销毁旧的ComB > 执行后续步骤133行1到6步!!!
 export default class App extends React.Component{
     state = {
         isReg:false,
