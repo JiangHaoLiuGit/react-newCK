@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import UseCustom from './UseCustom'
+import MyHooks from './MyHooks'
 export default class Test extends Component {
   render() {
     return (
       <div>
-        <UseCustom />
+        <MyHooks />
       </div>
     )
   }
