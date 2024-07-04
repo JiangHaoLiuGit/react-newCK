@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import MyHooks from './MyHooks'
+import Reducer from './Reducer'
 export default class Test extends Component {
   render() {
     return (
       <div>
-        <MyHooks />
+        <Reducer />
       </div>
     )
   }

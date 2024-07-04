@@ -1,30 +1,30 @@
-# 自定义hook
+# Reducer - hook
 
-State Hook:  useState
-Effect Hook: useEffect
+Flux: Facebook出品的一个数据流框架
 
-自定义Hook: 将一些常用的,跨越多个组件的hook功能,抽离出去形成一个函数,该函数就是自定义Hook,自定义hook,由于其内部需要使用hook功能,所以它本身也需要按照Hook的规则实现:
+简述:会把react的组件和处理数据的逻辑分离出来
+处理数据的逻辑在reducer类型函数里处理逻辑
+组件中调用方法的话用的是dispatch函数
 
-1.函数名必须以use开头
-2.调用自定义Hook函数时,应该放到顶层
+好处的话会把组件中的计算数据的逻辑抽离出来写到reducer中!!!(计算逻辑从视图组件中抽离出来,牛)
 
-例如:
+1.规定了数据是单向流动的
+2.数据储存在数据仓库中(目前,可以认为state就是一个储存数据的仓库)
+3.action是改变数据的唯一原因(本质上就是一个对象,action有两个属性)
+    1.type:字符串,动作的类型
+    2.payload:任意类型,动作发生后的附加信息
+    3.例如:如果是添加一个学生,action可以描述为:
+        1.``{type:"addStudent",payload:{学生对象的各种信息}``
+    4.例如,如果要删除一个学生,action可以描述为:
+        1.``{type:"deleteStudent",payload:学生id}``
+4.具体改变数据的是一个函数,该函数叫做reducer
+    1.该函数接受两个参数
+        1.state:表示当前数据仓库中的数据
+        2.action:描述了如何去改变数据,以及变化数据的一些附加信息
+    2.该函数必须有一个返回结果,用于表示数据仓库变化之后的数据
+        1.Flux要求,对象是不可变的,如果返回对象,必须创建新的对象
+5.如果要触发reducer,不可以直接调用,而是应该调用一个辅助函数dispatch
+    1.该函数仅接受一个参数:action
+    2.该函数会间接去调用reducer,已达到改变数据的目的
 
-1.很多组件都需要在第一次加载完成后,获取所有学生数据
-
-
-自定义Hook和高阶组件对比:
-高阶组件会让层级变的复杂,排查问题慢,
-同时ref也难获取,得要ref转发
-而且没有自定义hook写起来简单
-
-vscode更新后变成英文怎么办?
-按f1 输入config 选择Configure Display Language
-选ch-cn即可
-
-使用Hook的时候,如果没有严格按照Hook的规则进行,eslint的一个插件
-(eslint-plugin-react-hooks)会报出警告
-
-![Alt text](image.png)
-/* eslint "react-hooks/exhaustive-deps": "off" */
-// 单文件中删除eslint中eslint-plugin-react-hooks插件报的警告
+    
