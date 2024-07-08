@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import Context from './Context'
+import Callback from './Callback'
 export default class Test extends Component {
   render() {
     return (
       <div>
-        <Context />
+        <Callback />
       </div>
     )
   }
