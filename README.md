@@ -1,5 +1,11 @@
 # Reducer - hook
 
+useReducer(分发器):
+他存在的意义 => 把reducer(state,action)放进去返回一个dispatch函数,组件想改变数据调用
+dispatch({type:'XXX'}) xxx意味着数据要干嘛,而不是代表逻辑.这个叫flux数据流规范
+然后会创建一个useState
+最后return [state,dispatch]
+
 Flux: Facebook出品的一个数据流框架
 
 简述:会把react的组件和处理数据的逻辑分离出来
