@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import Callback from './Callback'
+import Memo from './Memo'
 export default class Test extends Component {
   render() {
     return (
       <div>
-        <Callback />
+        <Memo />
       </div>
     )
   }
