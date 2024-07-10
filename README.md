@@ -1,4 +1,4 @@
-# Callback - hook
+# Ref - hook
 
-函数名: useCallback
-得到一个固定引用值的函数,通常用他进行性能优化
+函数名: Ref
+有点和useState类似,都是可以当做数据内存空间,可以配合useState还有useEffect一起用
