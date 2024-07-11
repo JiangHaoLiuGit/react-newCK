@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import Ref from './Ref'
+import ImperativeHandle from './ImperativeHandle'
 export default class Test extends Component {
   render() {
     return (
       <div>
-        <Ref />
+        <ImperativeHandle />
       </div>
     )
   }
