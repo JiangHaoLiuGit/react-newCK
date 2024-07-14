@@ -1,10 +1,3 @@
-# LayoutEffect - hook
+# DebugValue - hook
 
-Effect:浏览器渲染完成之后触发
-LayoutEffect:完成了DOM改动,但还没有完成渲染,有点类似于组件中的componentDidMount还有componentDidUpdate,都是完成之后浏览器才渲染真实DOM的
-
-存在的意义
-和useEffect语法一样,生命周期也一样,在正式的DOM渲染到root之后才会执行的方法
-某些情况下可以用LayoutEffect代替Effect
-什么情况下呢,函数内操作真实DOM的时候如果用Effect的话会出现闪烁的情况,用户体验不好,所以React不得不开发
-平替hook => LayoutEffect
+用于将自定义hook的关联数据显示到控制台
