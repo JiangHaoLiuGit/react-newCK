@@ -1,18 +1,10 @@
-# ImperativeHandle - hook
+# LayoutEffect - hook
 
-存在的意义,类组件中可以用方法,
-外面的按钮可以调用类组件中的方法
-但是如果把类组件换成函数组件想达到一样的效果的话目前不行
-因为函数组件中ref获取不到组件的方法,只能通过ref转发获取组件中的元素,
-想获取函数组件中的方法的话只能用
-``js``
-useImperativeHandle(ref,()=>{
-    return {
-        methods(){
+Effect:浏览器渲染完成之后触发
+LayoutEffect:完成了DOM改动,但还没有完成渲染,有点类似于组件中的componentDidMount还有componentDidUpdate,都是完成之后浏览器才渲染真实DOM的
 
-        }
-    }
-})
-这样就可以通过ref函数组件获取函数组件中的方法,但是实际场景非常少,以后应该不会遇到!
-``js``
-
+存在的意义
+和useEffect语法一样,生命周期也一样,在正式的DOM渲染到root之后才会执行的方法
+某些情况下可以用LayoutEffect代替Effect
+什么情况下呢,函数内操作真实DOM的时候如果用Effect的话会出现闪烁的情况,用户体验不好,所以React不得不开发
+平替hook => LayoutEffect

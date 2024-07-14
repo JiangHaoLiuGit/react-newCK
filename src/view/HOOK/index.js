@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import ImperativeHandle from './ImperativeHandle'
+import LayoutEffect from './LayoutEffect'
 export default class Test extends Component {
   render() {
     return (
       <div>
-        <ImperativeHandle />
+        <LayoutEffect />
       </div>
     )
   }
