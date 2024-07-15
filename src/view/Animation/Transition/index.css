@@ -1,0 +1,11 @@
+.fade{
+    transition: 2000ms;
+}
+
+.fade-exited,.fade-entering{
+    opacity: 1;
+}
+
+.fade-exiting,.fade-entered{
+    opacity:0;
+}
