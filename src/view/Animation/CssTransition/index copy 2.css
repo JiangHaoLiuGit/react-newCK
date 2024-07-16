@@ -1,0 +1,55 @@
+h1{
+    
+    margin: 10px 0;
+}
+
+div.box{
+    width: 200px;
+    margin: 0 auto;
+    height: 62px;
+    position: relative;
+}
+
+.box h1{
+    position: absolute;
+    top: 0;
+    left:0;
+}
+
+button{
+    display: block;
+    transform: translateX(-65px);
+    margin: 40px auto;
+}
+
+
+/* 进入动画 */
+
+.enter , .appear{
+    opacity: 0;
+    transform: translateX(200px);
+}
+
+.enter-active ,.appear-active{
+    opacity: 1;
+    transform:translateX(0px);
+    transition:1s;
+}
+
+.enter-done{
+    opacity: 1;
+    transform:translateX(0px)
+}
+
+/* 离开动画 */
+
+.exit-active{
+    transition:1s;
+    transform:translateX(-200px);
+    opacity:0;
+}
+
+.exit-done{
+    transform:translateX(-200px);
+    opacity:0;
+}

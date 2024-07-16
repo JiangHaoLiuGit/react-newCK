@@ -5,10 +5,10 @@ import App from './App.js'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 function render(){
   root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
       <App>
       </App>
-    </React.StrictMode>
+    // </React.StrictMode>
   )
 }
 
