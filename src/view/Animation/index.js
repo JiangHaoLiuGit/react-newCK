@@ -1,9 +1,9 @@
 import React from 'react'
 
-import CssTransition from './CssTransition'
+import SwitchTransitionCom from './SwitchTransition'
 
 export default function Test(){
     return <>
-        <CssTransition/>
+        <SwitchTransitionCom/>
     </>
 }

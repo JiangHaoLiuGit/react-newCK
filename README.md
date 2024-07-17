@@ -2,23 +2,19 @@
 
 动画库 : react-transition-group
 
-cssTransition
+SwitchTransition 用户有顺序的切换内部组件
 
-当进入时,发生:
-1.为CSSTransition内部的DOM根元素(后续统一为DOM元素)添加样式enter(初始位置)
-2.在下一帧(enter样式已经完全应用到了元素),立即为该元素添加样式enter-active(结束位置)
-3.当timeout结束后,去掉之前的样式,添加样式enter-done(结束时设置样式)
+CSSTransition的切换顺序是同步的,exit和enter是一起进行的,如果要分开的话实现费劲,所以就出现了SwitchTransition标签
 
+默认情况下:mode:out-in(先出后进)
 
-当退出时,发生:
-1.为CSSTransition内部的DOM根元素(后续统一为DOM元素)添加样式exit(初始位置)
-2.在下一帧(exit样式已经完全应用到了元素),立即为该元素添加样式exit-active(结束位置)
-3.当timeout结束后,去掉之前的样式,添加样式exit-done(结束时设置样式)
+1.当key值改变时,会将之前的DOM根元素添加退出样式(exit,exit-active)
+2.退出完成后,将该DOM元素移除
+3.重新渲染内部DOM元素
+4.为新渲染的DOM根元素添加进入样式(enter,enter-active,enter-done)
 
-设置className,可以指定类样式的名称
-
-1.字符串:为类样式添加前缀
-2.对象:为每个类样式指定设置类样式名称(非前缀)
-
-关于首次渲染的类样式 appear => appear-active => appear-done,它和enter唯一区别在于完成时会同时加入
-appear-done和enter-done
+in-out:(效果实在很反人类,不推荐使用)
+1.重新渲染内部DOM元素,保留之前的元素
+2.新渲染的DOM根元素添加进入样式(enter,enter-active,enter-done)
+3.将之前的DOM根元素添加退出样式(exit,exit-active)
+4.退出完成后,将该DOM元素移除
