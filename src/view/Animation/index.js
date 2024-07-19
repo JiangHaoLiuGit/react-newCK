@@ -1,9 +1,9 @@
 import React from 'react'
 
-import SwitchTransitionCom from './SwitchTransition'
+import TransitionGroups from './TransitionGroup'
 
 export default function Test(){
     return <>
-        <SwitchTransitionCom/>
+        <TransitionGroups/>
     </>
 }

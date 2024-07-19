@@ -1,0 +1,19 @@
+.exit{
+    transform-origin: 0 0;
+    transform: scale(1);
+}
+.exit-active{
+    transform:scale(0);
+    transform-origin: top left;
+    transition: 1s;
+}
+
+.enter{
+    transform:scale(0);
+    transform-origin: top left;
+}
+.enter-active{
+    transition: 1s;
+    transform-origin: 0 0;
+    transform: scale(1);
+}
