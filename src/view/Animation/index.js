@@ -1,9 +1,9 @@
 import React from 'react'
 
-import TransitionGroups from './TransitionGroup'
+import TransitionComponent from './TransitionComponent'
 
 export default function Test(){
     return <>
-        <TransitionGroups/>
+        <TransitionComponent/>
     </>
 }

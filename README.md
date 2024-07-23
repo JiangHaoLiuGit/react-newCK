@@ -2,5 +2,8 @@
 
 动画库 : react-transition-group
 
-TransitionGroup 用来放一个动画列表(里面成员是Transition标签或者CssTransition或者switchTransition)
-该组件的Children,接受多个动画组件,该组件用于根据这些子组件的key值,控制他们的进入和退出状态
+TransitionComponent 这节课是用来封装动画组件的,没有新标签,react动画就四个标签之前四节课已经学完了,分别是
+<Transition>
+<CSSTransition>
+<SwitchTransition>
+<TransitionGroup>
