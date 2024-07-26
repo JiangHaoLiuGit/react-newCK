@@ -1,0 +1,76 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.container{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+.header{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: #000;
+    color: #fff;
+    display: flex;
+    padding:20px;
+    box-sizing: border-box;
+    justify-content:space-between;
+}
+.header h1{
+    margin: 0;
+}
+.header .info{
+    margin-top: 10px;
+}
+.header .info span{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.middle{
+    position: absolute;
+    top: 80px;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+aside{
+    width: 150px;
+    overflow: auto;
+    height: 100%;
+    background: #008c8c;
+    color: #fff;
+    padding: 20px 0;
+}
+aside ul li{
+    
+    background: #008c8c;
+    
+    text-align: center;
+}
+aside ul li a{
+    display: block;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    color: inherit;
+    text-decoration: none;
+}
+aside ul li:hover{
+    cursor: pointer;
+    background: #fff;
+    color: #008c8c;
+}
+
+.main{
+    width: calc(100% - 150px);
+    height: 100%;
+    padding: 30px;
+}
