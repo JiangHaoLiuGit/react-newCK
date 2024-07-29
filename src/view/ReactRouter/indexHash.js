@@ -1,6 +1,7 @@
 import React from 'react'
-import {Switch,Route,BrowserRouter as Router} from 'react-router-dom'
+import {Switch,Route,HashRouter as Router} from 'react-router-dom'
 
+// 地址 http://localhost:3000/#/a
 function A(props){
     console.log(props)
     return <>
@@ -8,7 +9,6 @@ function A(props){
         <button onClick={()=>props.history.push("/b")}>跳转b</button>
     </>
 }
-
 
 function B(props){
     console.log(props)

@@ -1,5 +1,5 @@
 import React from 'react'
-import Test from './view/AdminView'
+import Test from './view/ReactRouter'
 
 export default class App extends React.Component{
     render(){
