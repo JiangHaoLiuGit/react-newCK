@@ -1,20 +1,25 @@
 import React from 'react'
-import {Switch,Route,BrowserRouter as Router} from 'react-router-dom'
+import {Switch,Route,BrowserRouter as Router,withRouter} from 'react-router-dom'
+const AWrapper = withRouter(A)
+function News(props){
+    return <>
+        <h1>显示新闻组件</h1>
+        <AWrapper/>
+    </>
+}
 
 function A(props){
     console.log(props)
     return <>
-        <h1>组件A</h1>
-        <button onClick={()=>props.history.push("/b")}>跳转b</button>
+        <button onClick={()=>{
+            props.history.push("/")
+        }}>回首页</button>
     </>
 }
 
-
-function B(props){
-    console.log(props)
+function index(){
     return <>
-        <h1>组件B</h1>
-        <button onClick={()=>props.history.push("/a")}>跳转A</button>
+        <h2>首页</h2>
     </>
 }
 
@@ -26,10 +31,12 @@ export default function Test(){
     return <>
         <Router>
             <Switch>
-                <Route path="/a" component={A} />
-                <Route path="/b" component={B} />
+                <Route path="/news" component={News} />
+                {/* <Route path={["/news","/n","/news/:year(\d+)?/:month(\d+)?/:day(\d+)?/*"]} component={News} /> */}
+                <Route path="/" component={index} />
                 <Route component={NotDefined} />
             </Switch>
         </Router>
     </>
+    
 }
