@@ -5,7 +5,8 @@ import './index.css'
 export default class Layout extends Component {
     static defaultProps = {
         header:propTypes.element,
-        aside:propTypes.element
+        aside:propTypes.element,
+        children:propTypes.arrayOf(propTypes.element)
     }
     constructor(props){
         super(props)
