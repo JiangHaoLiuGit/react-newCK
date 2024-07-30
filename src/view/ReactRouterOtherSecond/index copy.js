@@ -1,7 +1,6 @@
 import React from 'react'
 import {BrowserRouter as Router , Route , Link , NavLink , Redirect , Switch} from 'react-router-dom'
 import './index.css'
-import {routerConfig} from './routerConfig'
 function UserCom(props){
     return <>
         <h1>我是User组件</h1>
@@ -9,13 +8,13 @@ function UserCom(props){
           {/*  innerRef={node=>{
               node.style.marginRight = "20px"
             }} */}
-            <NavLink to={routerConfig.user.info}>用户信息</NavLink>
+            <NavLink to={`${props.match.url}/info`}>用户信息</NavLink>
             <span> / </span>
-            <NavLink to={routerConfig.user.pay}>充值</NavLink>
+            <NavLink to={`${props.match.url}/pay`}>充值</NavLink>
         </div>
         <div className="router">
-          <Route path={routerConfig.user.info}  component={UserInfo}></Route>
-          <Route path={routerConfig.user.pay}  component={UserPay}></Route>
+          <Route path={`${props.match.url}/info`}  component={UserInfo}></Route>
+          <Route path={`${props.match.url}/pay`}  component={UserPay}></Route>
         </div>
 
     </>
@@ -34,8 +33,8 @@ export default function Test() {
     <div>
       <Router>
         <Switch>
-          <Route path={routerConfig.user.root} component={UserCom}></Route>
-          <Redirect to={routerConfig.user.root}/>
+          <Route path="/uss" component={UserCom}></Route>
+          <Redirect to="/uss"/>
         </Switch>
       </Router>
     </div>
