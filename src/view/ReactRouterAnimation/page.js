@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom'
 export function navPage() {
   return (
     <div className='nav'>
-      <NavLink to="/">首页</NavLink>
+      <NavLink to="/home">首页</NavLink>
       <NavLink to="/news">新闻页</NavLink>
       <NavLink to="/personal">个人中心</NavLink>
     </div>

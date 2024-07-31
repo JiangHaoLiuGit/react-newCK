@@ -17,7 +17,6 @@ function MyTransition({visible, children} ){
 }
 
 export default function Test() {
-    let [hide , setHide ] = useState(true)
   return (
     <Router>
         <div className='container'>
@@ -25,53 +24,28 @@ export default function Test() {
 
             </Page.navPage>
             <div className='box'>
-                <Route path="/" exact>
+                <Route path="/home" exact>
                     {({match})=>{
-                        //  component={Page.Home}
-                        console.log(match)
-                        if(match){
-                            return <MyTransition visible={hide}>
-                                <Page.Home/>
-                            </MyTransition>
-                            
-                        }else{
-                            return <MyTransition visible={!hide}>
-                                <Page.Home/>
-                            </MyTransition>
-                        }
+                        return <MyTransition visible={match?true:false}>
+                            <Page.Home/>
+                        </MyTransition>
                     }}
                 </Route>
                 <Route path="/news" exact >
                     {({match})=>{
                         //  component={Page.Home}
-                        console.log(match)
-                        if(match){
-                            return <MyTransition visible={hide}>
-                                <Page.News/>
-                            </MyTransition>
-                            
-                        }else{
-                            return <MyTransition visible={!hide}>
-                                <Page.News/>
-                            </MyTransition>
-                        }
+                        return <MyTransition visible={match?true:false}>
+                            <Page.News/>
+                        </MyTransition>
                     }}
                 </Route>
 
                 <Route path="/personal" exact >
                     {({match})=>{
                         //  component={Page.Home}
-                        console.log(match)
-                        if(match){
-                            return <MyTransition visible={hide}>
-                                <Page.Personal/>
-                            </MyTransition>
-                            
-                        }else{
-                            return <MyTransition visible={!hide}>
-                                <Page.Personal/>
-                            </MyTransition>
-                        }
+                        return <MyTransition visible={match?true:false}>
+                            <Page.Personal/>
+                        </MyTransition>
                     }}
                 </Route>
             </div>
