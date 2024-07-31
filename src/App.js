@@ -1,5 +1,5 @@
 import React from 'react'
-import Test from './view/ReactRouterProtect'
+import Test from './view/ReactRouterGuard'
 
 export default class App extends React.Component{
     render(){
