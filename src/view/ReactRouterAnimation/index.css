@@ -1,0 +1,40 @@
+.container{
+    width: 500px;
+    margin: 0 auto;
+}
+.nav{
+    height: 40px;
+    line-height: 40px;
+    background: lightseagreen;
+    text-align: center;
+}
+
+.nav a{
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    display: inline-block;
+}
+.nav a.active{
+    color: #754cb8;
+}
+.box{
+    text-align: center;
+    
+}
+.box div{
+    height: 300px;
+}
+h1{
+    margin: 0;
+    line-height: 3;
+}
+.personal{
+    background:lightgreen;
+}
+.news{
+    background:lightsalmon;
+}
+.home{
+    background:lightpink;
+}
