@@ -38,3 +38,7 @@ h1{
 .home{
     background:lightpink;
 }
+
+.exit-done{
+    display: none;
+}
