@@ -1,5 +1,5 @@
 import React from 'react'
-import Test from './view/ReactRouterAnimation'
+import Test from './view/ScrollBar'
 
 export default class App extends React.Component{
     render(){
