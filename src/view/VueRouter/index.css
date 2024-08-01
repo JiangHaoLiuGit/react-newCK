@@ -1,0 +1,10 @@
+a{
+    margin: 10px 20px;
+    display: inline-block;
+    color: #000;
+    text-decoration:none;
+}
+a.active{
+    color: #f40;
+    text-decoration: underline;
+}
