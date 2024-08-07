@@ -1,5 +1,5 @@
 import React from 'react'
-import Test from './view/VueRouter'
+import Test from './view/ReactRedux'
 
 export default class App extends React.Component{
     render(){
