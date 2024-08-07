@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {ReducerOne} from '../../store/Reducer/reducer'
+// https://www.bilibili.com/video/BV1Sv4y1a7z8/?spm_id_from=333.337.search-card.all.click
 
 // state的一个映射
 const mapStateToProps = (state) => {
