@@ -1,5 +1,5 @@
 import React from 'react'
-import Test from './view/ReactRedux'
+import Test from './view/Frame'
 
 export default class App extends React.Component{
     render(){
