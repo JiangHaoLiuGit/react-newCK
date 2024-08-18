@@ -52,7 +52,25 @@ React 16. 设计架构
 根据Fiber节点执行渲染操作
 
 Fiber数据结构
-其实就是js对象,从virtualDOM演变而来的
+其实就是js对象,从virtualDOM(虚拟DOM)演变而来的,里面的对象属性和虚拟DOM属性也不一样,具体为{
+    tag:区分这个react元素为普通节点类型或者函数组件或者类组件
+    type:普通元素就是"div"或者"span",如果是类组件的话就是构造函数,函数组件就是函数体
+    还有一些属性是定位属性:
+    return:它的父元素,
+    child:它的子元素,
+    sibling:它的兄弟元素,
+    还有一些需要执行的DOM操作
+    updateQueue:[],他是任务队列,里面放的是组件应该要执行的操作,比如,组件状态的更新,或者初始化渲染函数
+    在举例细一点,比如react中有多个this.setState(),那么先会把多个任务都放到这里,然后最后一起执行,所以react中会有
+    state = {
+        name:"老婆",
+        age:"16",
+    }
+    this.setState({name:"江浩"})
+    console.log(this.state.name)//老婆
+    this.setState({age:"17"})
+    上面打印的值其实是旧的,因为这里还没有去改变状态,而是任务都会放到updateQueue任务队列里面,最后一起执行
+}
 
 return <div>
     <h1>name</h1>
