@@ -4,7 +4,7 @@
 依靠next.js(后端框架)运行的
 
 ![Alt text](image-2.png)
-
+在next.js中方法getServerSideProps方法可以用作服务端渲染函数
 在react class组件中
 {
     render(){
@@ -27,14 +27,16 @@ ssg 就是把一些服务端代码打包到cdn链接中引入cdn就能得到渲�
 
 ## react 源码小结
 
-研究源码的话首先要调试源码
+## 1.研究源码的话首先要调试源码
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(<App />)
 
+## 2.React元素怎么被创建的?
 首先要研究的就是jsx怎么转化成React元素的?
 在react中用的是jsx语法描述dom结构的,执行react项目的过程中jsx语法会被babel转化成调用createElement方法,调用这个函数会return ReactElement()这个方法会返回React元素 其实就是返回一个js对象,也就是用来描述真实dom
 
+## 3.React架构
 react 16. 引入fiber架构
 在React15版本中采用了循环递归virtualDOM(虚拟DOM)的比对,由于递归用的是js自身的执行栈,一旦开始就无法停止,知道执行完成,如果virtualDOM层级非常深的话就会长期占用js主线程,由于js是单线程无法同时执行其他任务,浏览器UI线程和JS线程是互斥的,所以这时候会造成无法响应用户操作,无法及时执行元素动画(在执行js递归对比虚拟dom),造成页面卡顿
 所以,react团队引入了fiber采用双缓存策略以及改变react架构完美解决了这个问题
@@ -51,6 +53,7 @@ React 16. 设计架构
 3.Renderer(渲染层):负责将发生变化的部分渲染到页面
 根据Fiber节点执行渲染操作
 
+## 4.数据结构
 Fiber数据结构
 其实就是js对象,从virtualDOM(虚拟DOM)演变而来的,里面的对象属性和虚拟DOM属性也不一样,具体为{
     tag:区分这个react元素为普通节点类型或者函数组件或者类组件
@@ -81,7 +84,7 @@ return <div>
 帧的概念
 ![Alt text](image-5.png)
 
-双缓存技术
+## 4.1:双缓存技术
 在内存中构建,构建完成后将自动替换的技术叫双缓存技术
 React使用双缓存技术完成Fiber树的构建与替换,实现DOM对象的快速更新
 在React中最多同时存在两课Fiber树,当前在屏幕中显示的内容对应的Fiber树叫做currentFiber树,当发生更新时,React会在内存中重新构建一颗新的Fiber树,这颗正在构建的Fiber树叫做workInProgress树,这棵树就是即将要显示到内存中的Fiber树,当这颗Fiber树构建完成后,React会使用它直接替换currentFiber树达到快速更新DOM的目的.因为workInProgressFiber树是在内存中构建的所以他的构建速度非常快的.
@@ -96,8 +99,9 @@ fiberRoot包含rootFiber,在rootFiber中current.stateNode:FiberRoot
 而fiberRoot只能有一个,而rootFiber可以有多个因为render方法是可以调用多次的,而render调用的时候第二个参数就是rootFiber
 fiberRoot会记录应用更新的信息,比如协调层在完成工作后,会将工作成果储存在fiberRoot中
 
-## React初始化
+## 5.React初始化
 
+## 5.1 Render阶段 协调层创建FIber对象结构,更新节点比对Fiber对象差异,并做出标记
 初始化阶段和更新阶段都在这里进行
     判断container上面有没有创建fiberRoot和rootFiber,如果有的话就是更新阶段,如果没有的话就是初始化阶段
 初次进入肯定是初始化阶段
@@ -109,7 +113,25 @@ fiberRoot会记录应用更新的信息,比如协调层在完成工作后,会将
 此时构建的Fiber树其实就是workInProgressFiber树以及要构建对应的rootFiber
 然后循环
 
+进入初始化阶段后创建FiberRoot和RootFiber,并且两者建立联系FiberRoot中current属性对应的就是rootFiber,在rootFiber中的stateNode属性对应的就是FiberRoot
 
+## 5.2 Commit阶段,获取render的成果(workInProgressFiber树),然后执行相应的DOM操作,执行组件的钩子函数
+## 5.2.1 Commit阶段一(commit前做的工作,)
+执行钩子函数getSnaqBeforeUpdate
+## 5.2.2 Commit阶段二(commit应该做的主体工作)
+去执行DOM操作
+## 5.2.3 Commit阶段三(commit后应该做的工作)
+去执行类组件生命周期函数:componentDidMount()
+去执行函数组件钩子函数
 
+研究源码想要看到的东西
+探究react从jsx中的代码到渲染页面经历的阶段
+jsx => React元素 => Fiber对象 + DOM对象(workInProgressFiber树) => 渲染层 => 执行对象的DOM操作(新增插入 / 更新数据 / 删除)形成最新的currentFiber树
 
-进入初始化阶段后创建FiberRoot和RootFiber,并且两者建立联系
+1.jsx => React元素 
+babel会把jsx中的标签调用createElement方法创建一个React元素(js对象)
+2.React元素 => Fiber对象 + DOM对象
+调用render方法(协调层负责的阶段),创建FiberRoot和RootFiber,形成currentFiber树
+copy currentFiber树形成workInProgressFiber树
+在上面会为每个React元素构建相应的Fiber对象和DOM对象,同时增加属性记录对应的DOM操作,应该新增插入/更新数据/删除DOM操作(协调层应该做的事情)
+3.workInProgressFiber树 => 渲染层 执行对象的DOM操作()替换
