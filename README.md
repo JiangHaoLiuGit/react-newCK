@@ -103,17 +103,22 @@ fiberRoot会记录应用更新的信息,比如协调层在完成工作后,会将
 
 ## 5.1 Render阶段 协调层创建FIber对象结构,更新节点比对Fiber对象差异,并做出标记
 初始化阶段和更新阶段都在这里进行
-    判断container上面有没有创建fiberRoot和rootFiber,如果有的话就是更新阶段,如果没有的话就是初始化阶段
+    判断container上面有没有创建fiberRootNode和rootFiber,如果有的话就是更新阶段,如果没有的话就是初始化阶段
 初次进入肯定是初始化阶段
-1.调用render方法去创建new FiberRoot()对象以及rootFiber()并且相互之间建立关系
+1.调用render方法去创建new FiberRootNode()对象以及rootFiber()并且相互之间建立关系
 2.然后会创建一个任务队列,在任务队列中放初始化渲染页面的任务,再把任务队列添加到浏览器的任务队列里
 等浏览器有空闲的时间再去执行!
 3.浏览器开始执行放到任务队列里的初始化任务
-为FiberRoot中每个react元素添加Fiber对象形成对应的Fiber树(就是FiberRoot)
+为FiberRootNode中每个react元素添加Fiber对象形成对应的Fiber树(就是FiberRootNode)
 此时构建的Fiber树其实就是workInProgressFiber树以及要构建对应的rootFiber
-然后循环
+然后循环模拟递归创建Fiber对象
+递阶段:beginWork,从父到子
+归阶段:completeUnitOfWork,从子到父
+创建出来的Fiber节点是一个链表类型的节点,child(子节点),siblin(下一个兄弟节点),reutrn(父节点)
 
-进入初始化阶段后创建FiberRoot和RootFiber,并且两者建立联系FiberRoot中current属性对应的就是rootFiber,在rootFiber中的stateNode属性对应的就是FiberRoot
+
+进入初始化阶段后创建FiberRootNode和RootFiber,并且两者建立联系FiberRootNode中current属性对应的就是rootFiber,在rootFiber中的stateNode属性对应的就是FiberRootNode
+
 
 ## 5.2 Commit阶段,获取render的成果(workInProgressFiber树),然后执行相应的DOM操作,执行组件的钩子函数
 ## 5.2.1 Commit阶段一(commit前做的工作,)
@@ -135,3 +140,26 @@ babel会把jsx中的标签调用createElement方法创建一个React元素(js对
 copy currentFiber树形成workInProgressFiber树
 在上面会为每个React元素构建相应的Fiber对象和DOM对象,同时增加属性记录对应的DOM操作,应该新增插入/更新数据/删除DOM操作(协调层应该做的事情)
 3.workInProgressFiber树 => 渲染层 执行对象的DOM操作()替换
+
+
+diff算法篇:
+就是在render的阶段
+render分为初始化渲染和更新阶段
+diff算法只发生在更新阶段
+React更新阶段是协调层reconclier负责的,Diff算法全程是reconcile,所以在React中涉及到diff算法的函数都是以reconile开头的
+在diff中比较的是两中状态(新旧)之间的差异这里的旧状态是指现在页面中的CurrentFiber数中的Fiber节点
+新的状态是指JSX对象,这里的JSX对象是指如果是class组件则是render中return的返回部分,如果是函数组件的话就是函数return返回的部分
+diff算法将会比较他俩之间的差异,并创建最新的Fiber数据结构,将这个工作成功放到内存汇总WorkInProgressFiber树中,然后commit阶段获取到最新的DOM,然后将他渲染到页面中
+
+简述一下diff算法就是比对当前的CurrentFiber树以及JSX对象,生成最新的Fiber树的过程就是Diff算法的工作流程
+具体的工作流程分为两大类
+单个Fiber对象的diff
+
+1.首先会比对他的层级,如果层级发生变化则会删除整个节点以及节点child,然后会重新创建对应的fiber节点
+2.会比对前后的元素type,比如之前是li现在是div的话也会删除整个节点以及child
+3,比对key和type,不一样也是同理,会删除整个,然后重新创建
+
+多个Fiber对象的diff
+他会遍历两次
+第一次会遍历每个元素是否有需要更新
+第二次会遍历数组长度是否变化或者某个节点位置是否发生变化
