@@ -5,7 +5,7 @@ function ComA(){
     return ReactDom.createPortal(<>
         <h1>ComA组件</h1>
         <ComB />
-    </>,document.querySelector(".portals"))
+    </>,document.querySelector("#app"))
 }
 function ComB(){
     return <>
