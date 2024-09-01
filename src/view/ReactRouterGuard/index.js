@@ -19,8 +19,12 @@ export default function Test() {
         <RouterGuard 
             onBeforeChange={(preLocation , location , action , callBack , unBlock)=>{
                 console.log(`日志:从${preLocation.pathname}到${location.pathname},跳转方式为${action}`)
-                callBack(true)
-                unBlock()
+                // 根据登录状态判断是否跳转
+                let isLogin = false
+                console.log(callBack)
+                callBack(false) 
+                // 关闭监听是否跳转
+                // unBlock()
             }}
             
         >
