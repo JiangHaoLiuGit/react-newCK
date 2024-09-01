@@ -17,10 +17,10 @@ function Tabs(props){
     return <>
         <NavLink activeStyle={{
             fontSize:"40px"
-        }} activeClassName="haoYu" innerRef={node=>{
+        }} activeClassName="defaultClass" innerRef={node=>{
             node.style.marginRight = '20px'
         }} to="/a">页面A</NavLink>
-        <NavLink replace activeClassName="haoYu" to={{
+        <NavLink replace activeClassName="defaultClass" to={{
             pathname:"/b",
             hash:"#abc",
             search:"?a=1&b=2"
