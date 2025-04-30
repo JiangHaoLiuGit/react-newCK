@@ -27,6 +27,7 @@ export default function Pages(props){
             <span>{props.current}</span>
             <span>/</span>
             <span>{pageNumber}</span>
+            <span>&nbsp; &nbsp; 总共{props.total}条</span>
         </div>
     </>
 }
