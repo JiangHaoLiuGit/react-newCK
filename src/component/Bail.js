@@ -2,12 +2,15 @@ import React ,{Component} from 'react'
 import './bail.css'
 
 export default class Bail extends Component{
+    // 遇到的bug,小球闪烁,忽左忽右,为什么呢?其实是计时器同时存在多个,没有注意及时清理剩余的计时器导致的
     constructor(props){
         super(props)
         this.state = {
             x:this.props.x || 0,
             y:this.props.y || 0,
+            // 横坐标的速度(一秒移动的坐标)
             xSpeed:this.props.xSpeed,
+            // 纵坐标的速度
             ySpeed:this.props.ySpeed,
             bg:this.props.bg || "#f40",
             timing:16
