@@ -2,6 +2,7 @@
 源码角度深度探索生命周期
 
 initRender() //声明vm._c(处理生成的render函数中的方法) 和vm.$createElement(处理用户自定义的render函数生成的方法)
+<!-- 声明vm.$attrs和$listeners和vm.$solts和vm.$parent -->
 callHook(vm,"beforeCreate")
 
 //给props/methods/data/computed(把这些都添加到vm的根实例上,后期为了直接方便this.xxx访问获取
@@ -9,14 +10,15 @@ callHook(vm,"beforeCreate")
 initState(vm)
 callHook(vm,'created')
 
-$mount => mountComponent() => 
+把tempalte转化为render和静态render函数存到this.$options上
 callHook(vm, 'beforeMount')
 
+$mount => mountComponent() => 
 定义updateComponent => new Watcher(vm,updateComponent,noop(空函数),callHook(vm, 'beforeUpdate'))
 vm._isMounted = true//标志vm._update(vm._render())执行完毕,最新的差异已经更新到了最新的dom,以及在vm.$el上打好补丁
 callHook(vm, 'mounted') // 挂在完毕
 
-和之前的$mount逻辑交织在一起的,new Wather后执行constructor() => get()之前会调用bofore => callHook(vm, 'beforeUpdate')
+和之前的$mount逻辑交织在一起的,new Wather后执行constructor() => get()之前会调用before => callHook(vm, 'beforeUpdate')
 callHook(vm, 'beforeUpdate')
 
 get() => 之后调用callHook(vm,'Updated')
