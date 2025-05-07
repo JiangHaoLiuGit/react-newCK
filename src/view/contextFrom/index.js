@@ -5,9 +5,7 @@ import fromButton from './fromButton'
 export default class Test extends React.Component{
     render(){
         return <>
-            <From onSubmit={(fromData)=>{
-                console.log(fromData)
-            }}>
+            <From>
                 <div>
                     账号 : <From.input name="loginId"></From.input>
                 </div>
@@ -15,7 +13,9 @@ export default class Test extends React.Component{
                     密码 : <From.input name="loginPassword" type="password"></From.input>
                 </div>
                 <div>
-                    <From.button>提交啊</From.button>
+                    <From.button onSubmit={(fromData)=>{
+                        console.log(fromData)
+                    }}>提交啊</From.button>
                 </div>
             </From>
         </>
