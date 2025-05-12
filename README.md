@@ -1,4 +1,7 @@
-# Callback - hook
+# Memo - hook
+
+函数名: useMemo
+缓存一个计算结果,避免重复计算,如果依赖的值发生变化将会重新渲染
 
 函数名: useCallback
 得到一个固定引用值的函数,通常用他进行性能优化
