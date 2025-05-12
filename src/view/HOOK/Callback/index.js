@@ -19,10 +19,17 @@ export default function Callback(){
     console.log("render Callback")
     let [n , setN] = useState(11)
     let [numbers , setNumber] = useState(0)
+    // 平时写法,这样写即使input数据,Son即使是纯函数也会重新render,这样就会有性能浪费
+    // const prueFun = () =>{
+    //     setN(n + 1)
+    // }
+    // 这就是为什么引入useCallback(),性能优化用的
     let prueFun = useCallback(()=>{
         setN(n + 1)
     },[n])
+    
     return <>
+    {/*  setVal={prueFun} */}
         <Son val={n} setVal={prueFun}/>
         {/* 改变input的值为什么Son也更新呢?他不是纯函数吗?因为setVal对应的函数(对象)每次地址都会变,所以即使是纯函数也会重新render */}
 
