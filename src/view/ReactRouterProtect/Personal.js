@@ -8,7 +8,7 @@ export default function Home(props) {
       <button onClick={()=>{
         data.loginOut()
         console.log(props)
-        // props.history.push("/personal")
+        props.history.push("/login")
       }}>退出登录</button>
     </div>
   )
