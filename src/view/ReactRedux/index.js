@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 
 // state的一个映射
 const mapStateToProps = (state) => {
-    console.log("state")
+    console.log("state2")
     console.log(state)
     return {
         str:state.str
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 }
 
 function Test(props) {
-    console.log("props")
+    console.log("props2")
     console.log(props)
   return <>
     <h1>
@@ -22,7 +22,7 @@ function Test(props) {
   </>
 }
 
-const mapDispatchToFunction = dispatch => {
+const mapDispatchToProps = dispatch => {
     return {
         changeStr:()=>{
             let active = {type:"change_active",str:"我是猪"}
@@ -31,7 +31,7 @@ const mapDispatchToFunction = dispatch => {
     }
 }
 
-// connect(state映射)(组件)
-export default connect(mapStateToProps,mapDispatchToFunction)(Test)
+// connect(连接的意思)(state映射)(组件)
+export default connect(mapStateToProps,mapDispatchToProps)(Test)
 
 

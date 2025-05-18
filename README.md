@@ -20,7 +20,7 @@ const store = createStore(传递reducer)
 
 - 3.提供器和连接器
 提供器(用Provider组件把App组件包起来)
-连接器(给需要用到状态的组件用的)
+连接器(connect(连接)给需要用到状态的组件用的)
 
 - 4.事件
 
