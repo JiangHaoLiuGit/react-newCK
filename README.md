@@ -42,15 +42,16 @@ react 16. 引入fiber架构
 所以,react团队引入了fiber采用双缓存策略以及改变react架构完美解决了这个问题
 
 React 16. 设计架构
-1.Scheduler(调度层):调度任务的优先级,高优先级任务优先进入协调器
+1.Scheduler(调度层):调度任务的优先级,高优先级任务优先进入协调器,如果有低优先任务在执行的话会先打断优先执行高优先级任务
 
 在react16中放弃了循环递归virtualDOM,而是采用循环模拟递归,而且比对过程是利用浏览器空余时间完成的,不会长期占用主线程,这就解决了virtualDOM比对造成页面卡顿的问题.
 总体:他要保证任务调度,负责React代码在浏览器空闲时间执行
+时间切片: react放弃浏览器自带的requestIdleCallBack() 因为触发频率不稳定及浏览器兼容性的影响他自己实现了该任务调度的功能模块 pagkes/Scheduler
 
-2.Reconciler(协调层):构建Fiber数据结构,比对Fiber对象找出差异,记录Fiber对象要进行的DOM操作
+2.Reconciler(协调层):构建Fiber数据结构,通过Diff算法比对Fiber对象找出差异,记录Fiber对象要进行的DOM操作
 负责构建Fiber节点,找出Fiber节点差异,并标记差异
 
-3.Renderer(渲染层):负责将发生变化的部分渲染到页面
+3.Renderer(渲染层):负责将发生变化的部分根据更新操作映射到具体平台(React Native)渲染到页面,实现跨平台的能力
 根据Fiber节点执行渲染操作
 
 ## 4.数据结构
