@@ -1,5 +1,11 @@
 # React 路由信息
 
+编程式路由跳转
+import {useHistory} from 'react-router-dom'
+const router = useHistory()
+router.push("/a") //跳转指定路由
+router.replace("/login") //重定向
+
 
 
 Router组件会创建一个上下文,并且,向上下文中注入一些信息
