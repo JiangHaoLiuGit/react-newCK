@@ -37,11 +37,13 @@ root.render(<App />)
 在react中用的是jsx语法描述dom结构的,执行react项目的过程中jsx语法会被babel转化成调用createElement方法,调用这个函数会return ReactElement()这个方法会返回React元素 其实就是返回一个js对象,也就是用来描述真实dom
 
 ## 3.React架构
+![Alt text](image-6.png)
 react 16. 引入fiber架构
 在React15版本中采用了循环递归virtualDOM(虚拟DOM)的比对,由于递归用的是js自身的执行栈,一旦开始就无法停止,知道执行完成,如果virtualDOM层级非常深的话就会长期占用js主线程,由于js是单线程无法同时执行其他任务,浏览器UI线程和JS线程是互斥的,所以这时候会造成无法响应用户操作,无法及时执行元素动画(在执行js递归对比虚拟dom),造成页面卡顿
 所以,react团队引入了fiber采用双缓存策略以及改变react架构完美解决了这个问题
 
 React 16. 设计架构
+开头三个名字(Scheduler/Reconciler/Renderer)都是独立的npm源代码包的名字,在packages文件夹下面的包
 1.Scheduler(调度层):调度任务的优先级,高优先级任务优先进入协调器,如果有低优先任务在执行的话会先打断优先执行高优先级任务
 
 在react16中放弃了循环递归virtualDOM,而是采用循环模拟递归,而且比对过程是利用浏览器空余时间完成的,不会长期占用主线程,这就解决了virtualDOM比对造成页面卡顿的问题.
@@ -49,10 +51,16 @@ React 16. 设计架构
 时间切片: react放弃浏览器自带的requestIdleCallBack() 因为触发频率不稳定及浏览器兼容性的影响他自己实现了该任务调度的功能模块 pagkes/Scheduler
 
 2.Reconciler(协调层):构建Fiber数据结构,通过Diff算法比对Fiber对象找出差异,记录Fiber对象要进行的DOM操作
-负责构建Fiber节点,找出Fiber节点差异,并标记差异
+负责构建Fiber节点(把React元素 => Fiber节点),(更新阶段)找出Fiber节点差异,并标记差异EffectTag
+在这个阶段要进行render()方法,构建FiberRoot,以及RootFiber,然后FiberRoot.current = RootFiber , RootFiber.sateNode = FiberRoot,
+还会构建Fiber节点,如果是更新阶段需要进行diff比对差异,将需要做的操作EffectTag属性添加到Fiber上,对应的属性包括应该新增/删除/修改/插入
 
 3.Renderer(渲染层):负责将发生变化的部分根据更新操作映射到具体平台(React Native)渲染到页面,实现跨平台的能力
 根据Fiber节点执行渲染操作
+commit阶段(渲染阶段)(如果是渲染成DOM用ReactDOM包,如果是ReactNative环境用ReactNative包,如果渲染成svg用ReactArt包)
+前 如果是类组件执行getShapeHotBeforeUpdate
+中 执行dom操作,拿出来fiber.effectTag 属性执行响应的新增/修改/删除/插入操作
+后 执行钩子函数componentDidMount或者其他的
 
 ## 4.数据结构
 Fiber数据结构
@@ -102,31 +110,47 @@ fiberRoot会记录应用更新的信息,比如协调层在完成工作后,会将
 
 ## 5.React初始化
 
+## 源码中如何判断是第一次渲染还是更新
+在render函数中有一个属性container容器
+判断container._reactRootContainer是否存在
+情况一:如果不存在那证明第一次进来是初始化渲染,那就会去创建FibeRoot还有RootFiber
+FibeRoot.current = RootFiber
+RootFiber.stateNode = FiberRoot
+
+
+情况二:如果有的话那必然是更新阶段 进入diff比对fiber和jsx的差异
+
 ## 5.1 Render阶段 协调层创建FIber对象结构,更新节点比对Fiber对象差异,并做出标记
 初始化阶段和更新阶段都在这里进行
-    判断container上面有没有创建fiberRootNode和rootFiber,如果有的话就是更新阶段,如果没有的话就是初始化阶段
+    判断container上面有没有创建FiberRoot和rootFiber,如果有的话就是更新阶段,如果没有的话就是初始化阶段
 初次进入肯定是初始化阶段
-1.调用render方法去创建new FiberRootNode()对象以及rootFiber()并且相互之间建立关系
+1.调用render方法去创建new FiberRoot()对象以及rootFiber()并且相互之间建立关系
 2.然后会创建一个任务队列,在任务队列中放初始化渲染页面的任务,再把任务队列添加到浏览器的任务队列里
 等浏览器有空闲的时间再去执行!
 3.浏览器开始执行放到任务队列里的初始化任务
-为FiberRootNode中每个react元素添加Fiber对象形成对应的Fiber树(就是FiberRootNode)
+为FiberRoot中每个react元素添加Fiber对象形成对应的Fiber树(就是FiberRoot)
 此时构建的Fiber树其实就是workInProgressFiber树以及要构建对应的rootFiber
+workInProgressFiber.stateNode = fiberRoot
+workInProgressFiber.alternate = rootFiber
 然后循环模拟递归创建Fiber对象
 递阶段:beginWork,从父到子
+判断workInProgressFiber的tag属性,如果是函数组件的话就调用函数,如果是类组件的话就调用render方法,如果是普通元素的话就创建对应的DOM对象
+
+
 归阶段:completeUnitOfWork,从子到父
 创建出来的Fiber节点是一个链表类型的节点,child(子节点),siblin(下一个兄弟节点),reutrn(父节点)
 
 
-进入初始化阶段后创建FiberRootNode和RootFiber,并且两者建立联系FiberRootNode中current属性对应的就是rootFiber,在rootFiber中的stateNode属性对应的就是FiberRootNode
+进入初始化阶段后创建FiberRoot和RootFiber,并且两者建立联系FiberRoot中current属性对应的就是rootFiber,在rootFiber中的stateNode属性对应的就是FiberRoot
 
 
 ## 5.2 Commit阶段,获取render的成果(workInProgressFiber树),然后执行相应的DOM操作,执行组件的钩子函数
 ## 5.2.1 Commit阶段一(commit前做的工作,)
-执行钩子函数getSnaqBeforeUpdate
+执行钩子函数getSnaqShotBeforeUpdate
 ## 5.2.2 Commit阶段二(commit应该做的主体工作)
-去执行DOM操作
+根据获取的effectTag属性去执行DOM操作,比如,新增,删除,插入,修改
 ## 5.2.3 Commit阶段三(commit后应该做的工作)
+拿到fiber节点的tag属性判断是FunctionComponent函数组件还是ClassComponent类组件
 去执行类组件生命周期函数:componentDidMount()
 去执行函数组件钩子函数
 
@@ -144,23 +168,34 @@ copy currentFiber树形成workInProgressFiber树
 
 
 diff算法篇:
+
+16.8之前采用传统diff比较节点之间的差异,比如有1000个节点,花费的时间维度是O(n3次方)就是会比较10亿次
+在16.8之后diff比较的时间维度是O(n),也就是会比较1000次,把时间维度大幅度降低为100次,核心就是有三大原则
+diff三大原则
+1.首先会比对他的层级,如果层级发生变化则会删除整个节点以及节点child,然后会重新创建对应的fiber节点
+2.会比对前后的元素type,比如之前是li现在是div的话也会删除整个节点以及child
+3,比对key和type,不一样也是同理,会删除整个,然后重新创建
+
 就是在render的阶段
 render分为初始化渲染和更新阶段
 diff算法只发生在更新阶段
-React更新阶段是协调层reconclier负责的,Diff算法全程是reconcile,所以在React中涉及到diff算法的函数都是以reconile开头的
+React更新阶段是协调层reconclier负责的,Diff算法全称是reconcile,所以在React中涉及到diff算法的函数都是以reconile开头的
 在diff中比较的是两中状态(新旧)之间的差异这里的旧状态是指现在页面中的CurrentFiber数中的Fiber节点
 新的状态是指JSX对象,这里的JSX对象是指如果是class组件则是render中return的返回部分,如果是函数组件的话就是函数return返回的部分
 diff算法将会比较他俩之间的差异,并创建最新的Fiber数据结构,将这个工作成功放到内存汇总WorkInProgressFiber树中,然后commit阶段获取到最新的DOM,然后将他渲染到页面中
 
+
 简述一下diff算法就是比对当前的CurrentFiber树以及JSX对象,生成最新的Fiber树的过程就是Diff算法的工作流程
 具体的工作流程分为两大类
-单个Fiber对象的diff
+单个Fiber对象的diff 函数入口是function reconcileChildFibers()
+单个比对,比较新(Fiber节点)旧(jsx元素)的key是否相同,然后看tag,如果都相同那可以复用,否则打上删除标记
 
-1.首先会比对他的层级,如果层级发生变化则会删除整个节点以及节点child,然后会重新创建对应的fiber节点
-2.会比对前后的元素type,比如之前是li现在是div的话也会删除整个节点以及child
-3,比对key和type,不一样也是同理,会删除整个,然后重新创建
 
 多个Fiber对象的diff
 他会遍历两次
 第一次会遍历每个元素是否有需要更新
 第二次会遍历数组长度是否变化或者某个节点位置是否发生变化
+有三种情况:
+增:拿出来key,如果旧的没有这个key那就新增
+删:也是拿出来key,如果新fiber节点没有这个key那就删除
+移动:如果拿出来key位置不对的话就要移动
