@@ -34,10 +34,20 @@ root.render(<App />)
 
 ## 2.React元素怎么被创建的?
 首先要研究的就是jsx怎么转化成React元素的?
-在react中用的是jsx语法描述dom结构的,执行react项目的过程中jsx语法会被babel转化成调用createElement方法,调用这个函数会return ReactElement()这个方法会返回React元素 其实就是返回一个js对象,也就是用来描述真实dom
+在react中用的是jsx语法描述dom结构的,执行react项目的过程中jsx语法会被babel转化成调用createElement方法
+createElement()做了四件事
+1.把props属性从config参数中分离出来
+2.把子元素挂在到props.children中
+3.为props属性赋值默认值(defaultProps)
+4.return ReactElement 返回这个函数
+
+
+
+调用这个函数会return ReactElement()这个方法会返回React元素 其实就是返回一个js对象,也就是用来描述真实dom
 
 ## 3.React架构
 react 16. 引入fiber架构
+![Alt text](%E5%B1%80%E9%83%A8%E6%88%AA%E5%8F%96_20250518_202926.png)
 在React15版本中采用了循环递归virtualDOM(虚拟DOM)的比对,由于递归用的是js自身的执行栈,一旦开始就无法停止,知道执行完成,如果virtualDOM层级非常深的话就会长期占用js主线程,由于js是单线程无法同时执行其他任务,浏览器UI线程和JS线程是互斥的,所以这时候会造成无法响应用户操作,无法及时执行元素动画(在执行js递归对比虚拟dom),造成页面卡顿
 所以,react团队引入了fiber采用双缓存策略以及改变react架构完美解决了这个问题
 
@@ -56,14 +66,14 @@ React 16. 设计架构
 ## 4.数据结构
 Fiber数据结构
 其实就是js对象,从virtualDOM(虚拟DOM)演变而来的,里面的对象属性和虚拟DOM属性也不一样,具体为{
-    tag:区分这个react元素为普通节点类型或者函数组件或者类组件
-    type:普通元素就是"div"或者"span",如果是类组件的话就是构造函数,函数组件就是函数体
+    1.tag:区分这个react元素为普通节点类型或者函数组件或者类组件
+    2.type:普通元素就是"div"或者"span",如果是类组件的话就是构造函数,函数组件就是函数体
     还有一些属性是定位属性:
-    return:它的父元素,
-    child:它的子元素,
-    sibling:它的兄弟元素,
+    3.return:它的父元素,
+    4.child:它的子元素,
+    5.sibling:它的兄弟元素,
     还有一些需要执行的DOM操作
-    updateQueue:[],他是任务队列,里面放的是组件应该要执行的操作,比如,组件状态的更新,或者初始化渲染函数
+    6.updateQueue:[],他是任务队列,里面放的是组件应该要执行的操作,比如,组件状态的更新,或者初始化渲染函数
     在举例细一点,比如react中有多个this.setState(),那么先会把多个任务都放到这里,然后最后一起执行,所以react中会有
     state = {
         name:"老婆",
@@ -73,6 +83,8 @@ Fiber数据结构
     console.log(this.state.name)//老婆
     this.setState({age:"17"})
     上面打印的值其实是旧的,因为这里还没有去改变状态,而是任务都会放到updateQueue任务队列里面,最后一起执行
+    7.effectTag:记录fiber要执行的DOM操作,比如,删除,插入,更新
+    8.expirationTime:任务的过期时间
 }
 
 return <div>
@@ -85,6 +97,7 @@ return <div>
 ![Alt text](image-5.png)
 
 ## 4.1:双缓存技术
+![Alt text](%E5%B1%80%E9%83%A8%E6%88%AA%E5%8F%96_20250518_213142.png)
 在内存中构建,构建完成后将自动替换的技术叫双缓存技术
 React使用双缓存技术完成Fiber树的构建与替换,实现DOM对象的快速更新
 在React中最多同时存在两课Fiber树,当前在屏幕中显示的内容对应的Fiber树叫做currentFiber树,当发生更新时,React会在内存中重新构建一颗新的Fiber树,这颗正在构建的Fiber树叫做workInProgress树,这棵树就是即将要显示到内存中的Fiber树,当这颗Fiber树构建完成后,React会使用它直接替换currentFiber树达到快速更新DOM的目的.因为workInProgressFiber树是在内存中构建的所以他的构建速度非常快的.
