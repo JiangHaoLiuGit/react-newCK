@@ -105,4 +105,22 @@ npm中的插件教程去哪里找?
 import queryString from 'query-string'
 queryString.parse(props.location.search)就行了
 
+页面传参的方式
+1.b页面路由设置/news/:year/:month/:day
+a跳b通过路径传参跳转this.props.history.push("/news/2025/8/20")
+b中props.match.params打印:{year:2025,month:8,day:20}
+2.优点直接链接跳转有参数携带/news?year=2025&month=8&day=20
+a页面props.history.push({
+    path:"/news",
+    search:queryString.stringify({year:2025,month:8,day:20})
+})
+b页面queryString.parse(this.props.location.search)
+3.最简单的传参
+a页面props.history.push({
+    pathname:"/b",
+    state:{year:2025,month:8,day:20}
+})
+b页面props.location.state打印:{year:2025,month:8,day:20}
+
+
 
