@@ -1,16 +1,21 @@
-import React ,{useRef,useImperativeHandle} from 'react'
+import React ,{useRef,useState,useImperativeHandle} from 'react'
 
 // 用函数组件达成同样类似的功能,目前是不能写的,除非用useImperativeHandle()
 
 function Test(props,refs){
-    useImperativeHandle(refs , ()=>{
+    let [n,setN] = useState(1)
+    useImperativeHandle(refs,()=>{
         return {
             methods(){
-                console.log("Test is Methods ing2...")
+                console.log("???")
             }
         }
-    },[])
-    return <h1>我是Test的h1</h1>
+    })
+    return <>
+        <h1>我是Test的h1</h1>
+        <h2>{n}</h2>
+        <button onClick={()=>{setN(n+1)}}>n+1</button>
+    </>
 }
 
 const TestCom = React.forwardRef(Test)
@@ -31,7 +36,7 @@ export default function ImperativeHandle(){
         <TestCom ref={refs}></TestCom>
         <button onClick={()=>{
             console.log(refs)
-            refs.current.methods()
+            // refs.current.methods()
         }}>调用Test组件中的Methods方法</button>
     </>
 }
