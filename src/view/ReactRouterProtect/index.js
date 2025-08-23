@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router , Route , Link , Switch} from 'react-router-dom'
+import {BrowserRouter as Router , Route , Link , Switch , Redirect} from 'react-router-dom'
 
 // import ProtectRouter from './ProtectRouter'
 import Login from './Login'
@@ -25,10 +25,11 @@ export default function Test() {
             <div>
                 <Switch>
                     <Route path="/login" component={Login}></Route>
+                    <Route path="/" component={Home}></Route>
                     {/* <ProtectRouter path="/personal" component={Personal}></ProtectRouter> */}
                     <IsLogin path="/personal" component={Personal}></IsLogin>
                     <IsLogin path="/news" component={News}></IsLogin>
-                    <Route component={Home}></Route>
+                    <Redirect from="/*" to="/"></Redirect>
                 </Switch>
             </div>
         </Router>
