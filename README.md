@@ -58,7 +58,10 @@ React 16. 设计架构
 
 在react16中放弃了循环递归virtualDOM,而是采用循环模拟递归,而且比对过程是利用浏览器空余时间完成的,不会长期占用主线程,这就解决了virtualDOM比对造成页面卡顿的问题.
 总体:他要保证任务调度,负责React代码在浏览器空闲时间执行
+
 时间切片: react放弃浏览器自带的requestIdleCallBack() 因为触发频率不稳定及浏览器兼容性的影响他自己实现了该任务调度的功能模块 pagkes/Scheduler
+什么叫时间切片:react放弃了同步递归比对虚拟dom的方式(不可中断)改为可中断的异步更新,同时把长任务拆分到每一帧中,像蚂蚁搬家一样每次执行一小段任务的方式,被称为时间切片,每一帧的时间为16ms,留给浏览器执行react任务的时间预留为5ms,这里的5ms在源码中有体现,是个全局变量
+react团队提出时间切片的概念其实就是为了解决16.8版本之前出现的页面卡顿性能问题
 
 2.Reconciler(协调层):构建Fiber数据结构,通过Diff算法比对Fiber对象找出差异,记录Fiber对象要进行的DOM操作
 负责构建Fiber节点(把React元素 => Fiber节点),(更新阶段)找出Fiber节点差异,并标记差异EffectTag
@@ -158,14 +161,14 @@ workInProgressFiber.alternate = rootFiber
 
 
 ## 5.2 Commit阶段,获取render的成果(workInProgressFiber树),然后执行相应的DOM操作,执行组件的钩子函数
-## 5.2.1 Commit阶段一(commit前做的工作,)
+## 5.2.1 Commit阶段一(commit前做的工作,执行DOM操作之前)
 执行钩子函数getSnaqShotBeforeUpdate
-## 5.2.2 Commit阶段二(commit应该做的主体工作)
-根据获取的effectTag属性去执行DOM操作,比如,新增,删除,插入,修改
-## 5.2.3 Commit阶段三(commit后应该做的工作)
+## 5.2.2 Commit阶段二(commit应该做的主体工作,执行DOM操作)
+根据获取的effectTag属性去执行DOM操作,比如:删除,插入,修改
+## 5.2.3 Commit阶段三(commit后应该做的工作,执行DOM操作之后)
 拿到fiber节点的tag属性判断是FunctionComponent函数组件还是ClassComponent类组件
 去执行类组件生命周期函数:componentDidMount()
-去执行函数组件钩子函数
+去执行函数组件钩子函数 useEffect
 
 研究源码想要看到的东西
 探究react从jsx中的代码到渲染页面经历的阶段
@@ -212,3 +215,21 @@ diff算法将会比较他俩之间的差异,并创建最新的Fiber数据结构,
 增:拿出来key,如果旧的没有这个key那就新增
 删:也是拿出来key,如果新fiber节点没有这个key那就删除
 移动:如果拿出来key位置不对的话就要移动
+
+
+const [n,setN] = useState(0)
+当执行setN(n+1)的时候会调用dispatchAction方法
+然后会执行schedule调度层会把更新任务根据任务优先级压入更新视图的调用栈里,
+然后会经过diff算法reconcilerChildrenFiber方法比对差异并把执行操作放入fiber对象的effectTag属性(新增,更新,删除,插入)
+等待commit阶段渲染执行上一个阶段effectTag的dom操作
+
+scheduleUpdateOnFiber(fiber, lane, eventTime)
+
+this.setState({name:"toms"})
+底层去调用enqueueSetState
+enqueueSetState(index){
+    let fiber = get(index)
+    scheduleUpdateOnFiber(fiber , lane, eventTime)
+}
+到commit阶段去更新视图
+
