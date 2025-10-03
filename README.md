@@ -33,6 +33,66 @@ Effect Hook: 用于在函数组件中处理副作用(有副作用的操作都写
         2.清理函数只有在页面销毁的时候运行
 5.副作用函数中,如果使用了函数上下文中的变量
 
+```js
+场景一:
+useEffect(async () => {
+    const result = await fetchData(id)
+    setData(result)
+},[id])
+```
+这种写法错误
+违反了Reacat设计原则
+Effect要返回清理函数,这里用async的话默认会返回一个promise,并不是React推荐的清理函数,所以React会报错
+
+难点业务
+一个搜索框用户输入数据,发送请求,返回的搜索结果实时显示
+1.排除防抖写法,产品时间反馈结果显示太慢
+2.发现有个业务痛点:用户输入a,又输入b
+ab的请求先展示,然后a的请求后面才到,结果会覆盖掉ab的正确结果
+
+解决方法一:
+设置全局开关
+在then的时候判断开关是否开启,如果开启则渲染页面这样将不会出现a的结果把ab的结果覆盖掉
+但是有个弊端a的请求还会发送这样还是会造成服务器资源的浪费
+```js
+useEffect(()=>{
+    const isMount = true
+    fetchData(id).then(result=>{
+        isMount = false
+        setData(result)
+    })
+    return ()=>{
+        isMount = false
+    }
+},[id])
+```
+
+解决方法二:
+用浏览器原生的api AbortController()
+```js
+useEffect(()=>{
+    const controller = new AbortController(); //1.创建 AbortController实例
+    try{
+        fetch(`/api/data?id=${id}`,{
+            signal:controller.sjgnal,//传递signal
+        }).then(result=>{
+            isMount = false
+            setData(result)
+        })
+    }catch(error){
+        if(error.name == 'AbortError'){
+            //请求被终止是预期行为
+        }else{
+            // 处理其他错误
+        }
+    }
+    return ()=>{
+        controller.abort();
+    }
+})
+// 这样处理完的话a的网络请求会被终止,不会造成服务器性能浪费
+```
+
 
 
 
