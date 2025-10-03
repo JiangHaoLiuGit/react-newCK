@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import {connect} from 'react-redux'
 import {ReducerOne} from '../../store/Reducer/reducer'
 
@@ -14,7 +14,19 @@ const mapStateToProps = (state) => {
 function Test(props) {
     console.log("props")
     console.log(props)
+    const [count , setCount] = useState(0)
+    // setInterval(()=>{
+    //   console.log(`count22 , ${count}`)
+    // },1000)
+    useEffect(()=>{
+      const inters = setInterval(()=>{
+        setCount(count+1)
+        console.log(`count1 , ${count}`)
+      },1000)
+      return () => clearInterval(inters)
+    },[])
   return <>
+    <h2>{count}</h2>
     <h1>
       ReactRedux {props.str}
     </h1>
