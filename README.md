@@ -32,6 +32,81 @@ HOOK种类:
 3.其他...
 
 
+注意:
+1.hook一般顶层调用
+2.Hook不能写到for循环或者if语句里
+举个例子
+```js
+export default function Test(){
+  const [n , setN] = useState(1)
+  const [count, setCount] = useState(10)
+  useEffect(()=>{
+    console.log("react")
+  },[])
+  return (
+      <div>
+        <h1>HOOK Function</h1>
+        <h2>{n}</h2>
+        <h2>{count}</h2>
+      </div>
+    )
+}
+// react是有记忆的,
+// 第一个hook是n
+// 第二个hook是effect
+// 第三个hook是count
+
+// 下面是把hook写到了if里面
+export default function Test(props){
+  const [n , setN] = useState(1)
+  if(props.name){
+    const [count, setCount] = useState(10)
+  }
+  useEffect(()=>{
+    console.log("react")
+  },[])
+  return (
+      <div>
+        <h1>HOOK Function</h1>
+        <h2>{n}</h2>
+        <h2>{count}</h2>
+      </div>
+    )
+}
+// 这里如果props.name不存在的话第二个hook是effect,在react记忆里面第二个是count
+
+// 所以应该写成这样
+export default function Test(props){
+  const [n , setN] = useState(1)
+  const [count, setCount] = useState(10)
+  useEffect(()=>{
+    console.log("react")
+  },[])
+  return (
+      <div>
+        <h1>HOOK Function</h1>
+        <h2>{n}</h2>
+        {props.name && <h2>{count}</h2>}
+      </div>
+    )
+}
+```
+
+<!-- 其实杜绝这种写法很简单,因为react中这么写会出问题,小了说会引起数据异常
+大一点直接会程序报错,页面渲染崩溃
+eslint配置就能解决 -->
+```js
+{
+    "rules":{
+        // hook确保没有出现在if或者for循环里
+        "react-hooks/rules-of-hooks":"error",
+        // 检查依赖数组的完整性 , 比如callback或者effect最后的数组里你没写依赖项会飘红
+        "react-hooks/exhaustive-deps":"warn"
+    }
+}
+```
+
+
 
 **注意事项**
 朋友，小戒靠忍，大戒靠悟。多去接触接触佛法，了解色欲的本质真相。其实欲望来的时候就是你身体周围啖精气鬼在影响你，刺激你的下体，让你有想淫欲的心，并不是你自己本性想这样，你想想你每次破戒以后是不是没有那种想淫欲的感觉了，整个人也清醒了，也想做个好人了，这就是因为破戒以后他们吃饱了，不影响你了，你恢复了自性中的你。不管男女下体是很肮脏恶臭的地方，你想想为什么我们欲望来的时候会对这个东西感兴趣，就是你被周围的看不见的一些低贱的阴间灵体所影响，因为他们喜欢，所以迷惑你的念头让你喜欢，让你破戒去供他们吃饱。我们被鬼和兽给控制主宰了。我们把这些鬼的欢喜当成了自己的欢喜，把鬼的念头当成自己的念头，把鬼当作了自己。一个正常的人，怎么会对男女的下体感兴趣？怎么会对一块臭烘烘、肮脏的肉无比激动和兴奋呢？所以明白了本质，看清了真相就悟出了道理，下次再想破戒的时候就想想他们又想吃饭了，他们又在周围刺激你的下体，让你有性欲，让你破戒，所以你去破戒有什么意义呢？一次次破戒害了自己身体，害了自己的运气，最后一事无成。性欲强并且经常破戒的人身体周围这种鬼就越多，因为它们知道你这能经常提供精血食物，周围越多对你的影响就越大，就越想破戒，总想破戒。努力戒一段时间，这样低下的阴间灵体知道从你这获取不到食物精气，时间久了就不会缠着你了，慢慢就成功了。多念阿弥陀佛和观世音菩萨对戒色有很大帮助，功德不可思议。希望上述所讲可以帮助到你。如果它能帮助到你，也请你转发给别人，希望能帮助更多的人。
